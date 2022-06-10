@@ -1,0 +1,8 @@
+name: PhatLootsQuests
+version: 1.0
+description: Quests module for PhatLoots
+author: Browsit
+website: https://github.com/Browsit/PhatLootsQuestsModule
+
+main: org.browsit.phatlootsquests.PhatLootsModule
+depend: [PhatLoots, Quests]
