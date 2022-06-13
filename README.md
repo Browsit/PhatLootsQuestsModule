@@ -3,8 +3,8 @@ Adds PhatLoots rewards to Quests
 
 ## Download
 Distributed through these fine vendors:
-- Lectern (TBA)
-- SpigotMC (TBA)
+- Lectern (https://lectern.browsit.org/resources/resource/43-phatloots-quests-module/)
+- SpigotMC (https://www.spigotmc.org/resources/phatloots-quests-module.102525/)
 
 ## Usage
 DO NOT PUT IN YOUR /plugins FOLDER. Place in /Quests/modules only!
