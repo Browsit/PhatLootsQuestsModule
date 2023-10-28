@@ -4,8 +4,9 @@ import com.codisimus.plugins.phatloots.PhatLoot;
 import com.codisimus.plugins.phatloots.PhatLootsAPI;
 import com.codisimus.plugins.phatloots.loot.CommandLoot;
 import com.codisimus.plugins.phatloots.loot.LootBundle;
-import me.blackvein.quests.CustomReward;
-import me.blackvein.quests.util.InventoryUtil;
+import me.pikamug.quests.module.BukkitCustomReward;
+import me.pikamug.quests.util.BukkitInventoryUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -13,8 +14,9 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.UUID;
 
-public class PhatLootsLootReward extends CustomReward {
+public class PhatLootsLootReward extends BukkitCustomReward {
 
     public PhatLootsLootReward() {
         setName("PhatLoots Loot Reward");
@@ -36,7 +38,12 @@ public class PhatLootsLootReward extends CustomReward {
     }
 
     @Override
-    public void giveReward(final Player player, final Map<String, Object> data) {
+    public void giveReward(final UUID uuid, final Map<String, Object> data) {
+        final Player player = Bukkit.getPlayer(uuid);
+        if (player == null) {
+            Bukkit.getLogger().severe("[PhatLoots Quests Module] Player was null for UUID " + uuid);
+            return;
+        }
         if (data != null) {
             final String lootName = (String)data.getOrDefault("PL Reward Name", "ANY");
 
@@ -71,7 +78,7 @@ public class PhatLootsLootReward extends CustomReward {
             if (player.isOnline()) {
                 for (final ItemStack is : lootBundle.getItemList()) {
                     try {
-                        InventoryUtil.addItem(player, is);
+                        BukkitInventoryUtil.addItem(player, is);
                     } catch (final Exception e) {
                         e.printStackTrace();
                     }
