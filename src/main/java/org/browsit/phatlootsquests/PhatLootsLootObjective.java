@@ -1,6 +1,7 @@
 package org.browsit.phatlootsquests;
 
 import com.codisimus.plugins.phatloots.events.PlayerLootEvent;
+import me.pikamug.quests.enums.ObjectiveType;
 import me.pikamug.quests.module.BukkitCustomObjective;
 import me.pikamug.quests.player.Quester;
 import me.pikamug.quests.quests.Quest;
@@ -43,9 +44,9 @@ public class PhatLootsLootObjective extends BukkitCustomObjective implements Lis
         if (quester == null) {
             return;
         }
-        for (final Quest q : quester.getCurrentQuests().keySet()) {
+        for (final Quest quest : quester.getCurrentQuests().keySet()) {
             final Player p = quester.getPlayer();
-            final Map<String, Object> dataMap = getDataForPlayer(p.getUniqueId(), this, q);
+            final Map<String, Object> dataMap = getDataForPlayer(p.getUniqueId(), this, quest);
             if (dataMap != null) {
                 final String arenaNames = (String)dataMap.getOrDefault("PL Open Names", "ANY");
                 if (arenaNames == null) {
@@ -54,7 +55,13 @@ public class PhatLootsLootObjective extends BukkitCustomObjective implements Lis
                 final String[] spl = arenaNames.split(",");
                 for (final String str : spl) {
                     if (str.equals("ANY") || event.getPhatLoot().getName().equalsIgnoreCase(str)) {
-                        incrementObjective(p.getUniqueId(), this, q, 1);
+                        incrementObjective(p.getUniqueId(), this, quest, 1);
+
+                        quester.dispatchMultiplayerEverything(quest, ObjectiveType.CUSTOM,
+                                (final Quester q, final Quest cq) -> {
+                                    incrementObjective(q.getUUID(), this, quest, 1);
+                                    return null;
+                                });
                         break;
                     }
                 }
